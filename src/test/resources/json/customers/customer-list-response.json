@@ -1,12 +1,12 @@
 [
   {
-    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
     "names": "Juan Alberto",
     "surnames": "Pérez Rodríguez",
     "email": "juan.perez@example.com",
     "phone": "987654321",
     "documentType": "01",
-    "documentNumber": "12345671",
+    "documentNumber": "12345678",
     "isActive": true
   },
   {
@@ -37,7 +37,7 @@
     "phone": "945678901",
     "documentType": "01",
     "documentNumber": "12345674",
-    "isActive": false
+    "isActive": true
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440005",
@@ -76,7 +76,7 @@
     "email": "lucia.rojas@example.com",
     "phone": "989012345",
     "documentType": "01",
-    "documentNumber": "12345678",
+    "documentNumber": "12345679",
     "isActive": true
   },
   {
@@ -87,7 +87,7 @@
     "phone": "990123456",
     "documentType": "04",
     "documentNumber": "E1234569",
-    "isActive": false
+    "isActive": true
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440010",

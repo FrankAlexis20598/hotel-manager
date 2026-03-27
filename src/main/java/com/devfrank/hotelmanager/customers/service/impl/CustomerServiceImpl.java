@@ -7,6 +7,7 @@ import com.devfrank.hotelmanager.customers.repository.CustomerRepository;
 import com.devfrank.hotelmanager.customers.service.CustomerService;
 import com.devfrank.hotelmanager.customers.util.exception.CustomerNotFoundException;
 import com.devfrank.hotelmanager.customers.util.mapper.CustomerMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +41,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO update(UUID id, SaveCustomerCommand command) {
-        Customer foundCustomer = customerRepository.findByIdAndIsActiveTrue(id)
+        Customer customer = customerRepository.findByIdAndIsActiveTrue(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
-        Customer customer = customerMapper.toEntity(foundCustomer, command);
+        customerMapper.toEntity(customer, command);
         return customerMapper.toDTO(customerRepository.save(customer));
     }
 
+    @Transactional
     @Override
     public void delete(UUID id) {
         Customer foundCustomer = customerRepository.findByIdAndIsActiveTrue(id)

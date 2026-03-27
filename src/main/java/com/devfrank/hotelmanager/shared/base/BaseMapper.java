@@ -8,7 +8,7 @@ public interface BaseMapper<E, D, CC, CU> {
 
     E toEntity(CC command);
 
-    E toEntity(E entity, CU command);
+    void toEntity(E entity, CU command);
 
     default List<D> toDTOs(List<E> entities) {
         return entities.stream().map(this::toDTO).toList();

@@ -40,15 +40,12 @@ public class CustomerMapper implements BaseMapper<Customer, CustomerDTO, SaveCus
     }
 
     @Override
-    public Customer toEntity(Customer entity, SaveCustomerCommand command) {
-        Customer customer = new Customer();
-        customer.setId(entity.getId());
-        customer.setNames(command.names());
-        customer.setSurnames(command.surnames());
-        customer.setEmail(command.email());
-        customer.setPhone(command.phone());
-        customer.setDocumentType(command.documentType());
-        customer.setDocumentNumber(command.documentNumber());
-        return customer;
+    public void toEntity(Customer entity, SaveCustomerCommand command) {
+        entity.setNames(command.names());
+        entity.setSurnames(command.surnames());
+        entity.setEmail(command.email());
+        entity.setPhone(command.phone());
+        entity.setDocumentType(command.documentType());
+        entity.setDocumentNumber(command.documentNumber());
     }
 }
