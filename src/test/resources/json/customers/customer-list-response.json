@@ -1,0 +1,102 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "names": "Juan Alberto",
+    "surnames": "Pérez Rodríguez",
+    "email": "juan.perez@example.com",
+    "phone": "987654321",
+    "documentType": "01",
+    "documentNumber": "12345671",
+    "isActive": true
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "names": "María Elena",
+    "surnames": "García López",
+    "email": "maria.garcia@example.com",
+    "phone": "912345678",
+    "documentType": "01",
+    "documentNumber": "12345672",
+    "isActive": true
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "names": "Carlos Augusto",
+    "surnames": "Sánchez Torres",
+    "email": "carlos.sanchez@example.com",
+    "phone": "934567890",
+    "documentType": "04",
+    "documentNumber": "E1234563",
+    "isActive": true
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440004",
+    "names": "Ana Lucía",
+    "surnames": "Mendoza Ruiz",
+    "email": "ana.mendoza@example.com",
+    "phone": "945678901",
+    "documentType": "01",
+    "documentNumber": "12345674",
+    "isActive": false
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440005",
+    "names": "Roberto Luis",
+    "surnames": "Castro Díaz",
+    "email": "roberto.castro@example.com",
+    "phone": "956789012",
+    "documentType": "01",
+    "documentNumber": "12345675",
+    "isActive": true
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440006",
+    "names": "Sofía Isabel",
+    "surnames": "Vargas Peña",
+    "email": "sofia.vargas@example.com",
+    "phone": "967890123",
+    "documentType": "04",
+    "documentNumber": "E1234566",
+    "isActive": true
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440007",
+    "names": "Fernando José",
+    "surnames": "Morales Gil",
+    "email": "fernando.morales@example.com",
+    "phone": "978901234",
+    "documentType": "01",
+    "documentNumber": "12345677",
+    "isActive": true
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440008",
+    "names": "Lucía Fernanda",
+    "surnames": "Rojas Blanca",
+    "email": "lucia.rojas@example.com",
+    "phone": "989012345",
+    "documentType": "01",
+    "documentNumber": "12345678",
+    "isActive": true
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440009",
+    "names": "Miguel Ángel",
+    "surnames": "Herrera Paz",
+    "email": "miguel.herrera@example.com",
+    "phone": "990123456",
+    "documentType": "04",
+    "documentNumber": "E1234569",
+    "isActive": false
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440010",
+    "names": "Elena Patricia",
+    "surnames": "Jiménez Sol",
+    "email": "elena.jimenez@example.com",
+    "phone": "901234567",
+    "documentType": "01",
+    "documentNumber": "12345680",
+    "isActive": true
+  }
+]
