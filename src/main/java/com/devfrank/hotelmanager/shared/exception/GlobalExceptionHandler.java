@@ -1,6 +1,8 @@
 package com.devfrank.hotelmanager.shared.exception;
 
+import com.devfrank.hotelmanager.shared.constans.JpaConstants;
 import com.devfrank.hotelmanager.shared.response.ErrorResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -39,6 +41,25 @@ public class GlobalExceptionHandler {
                 errors
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        String message = ex.getCause().getCause().getMessage().toLowerCase();
+        String responseMessage = "Error de integridad de datos.";
+
+        if (message.contains(JpaConstants.UK_ROOMS_NUMBER)) {
+            responseMessage = "El número de habitación ya está en uso.";
+        }
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                responseMessage,
+                LocalDateTime.now(),
+                null
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)

@@ -3,6 +3,7 @@ package com.devfrank.hotelmanager.customers.controller;
 import com.devfrank.hotelmanager.customers.dto.request.SaveCustomerRequest;
 import com.devfrank.hotelmanager.customers.dto.response.CustomerResponse;
 import com.devfrank.hotelmanager.customers.service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +42,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> create(@RequestBody SaveCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> create(@RequestBody @Valid SaveCustomerRequest request) {
         CustomerResponse customer = CustomerResponse.fromDTO(customerService.create(request.toCommand()));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -52,7 +53,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> update(@PathVariable UUID id, @RequestBody SaveCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> update(@PathVariable UUID id, @RequestBody @Valid SaveCustomerRequest request) {
         CustomerResponse customer = CustomerResponse.fromDTO(customerService.update(id, request.toCommand()));
         return ResponseEntity.ok(customer);
     }

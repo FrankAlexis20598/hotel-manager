@@ -50,8 +50,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public void delete(UUID id) {
-        Customer foundCustomer = customerRepository.findByIdAndIsActiveTrue(id)
+        Customer customer = customerRepository.findByIdAndIsActiveTrue(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
-        customerRepository.deactivateById(foundCustomer.getId());
+        customer.setIsActive(false);
+        customerRepository.save(customer);
     }
 }

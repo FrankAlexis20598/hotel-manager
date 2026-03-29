@@ -1,0 +1,72 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "number": "101",
+    "type": "INDIVIDUAL",
+    "price": 50.00,
+    "status": "DISPONIBLE"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "number": "102",
+    "type": "DOBLE",
+    "price": 85.00,
+    "status": "OCUPADA"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "number": "103",
+    "type": "SUITE",
+    "price": 150.00,
+    "status": "DISPONIBLE"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "number": "201",
+    "type": "INDIVIDUAL",
+    "price": 50.00,
+    "status": "MANTENIMIENTO"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440004",
+    "number": "202",
+    "type": "DOBLE",
+    "price": 85.00,
+    "status": "DISPONIBLE"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440005",
+    "number": "203",
+    "type": "SUITE",
+    "price": 150.00,
+    "status": "OCUPADA"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440006",
+    "number": "301",
+    "type": "INDIVIDUAL",
+    "price": 55.00,
+    "status": "DISPONIBLE"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440007",
+    "number": "302",
+    "type": "DOBLE",
+    "price": 90.00,
+    "status": "DISPONIBLE"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440008",
+    "number": "303",
+    "type": "SUITE",
+    "price": 175.00,
+    "status": "MANTENIMIENTO"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440009",
+    "number": "401",
+    "type": "SUITE",
+    "price": 200.00,
+    "status": "DISPONIBLE"
+  }
+]

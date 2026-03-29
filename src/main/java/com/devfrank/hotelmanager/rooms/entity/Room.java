@@ -1,14 +1,16 @@
-package com.devfrank.hotelmanager.customers.entity;
+package com.devfrank.hotelmanager.rooms.entity;
 
-import com.devfrank.hotelmanager.customers.util.converter.DocumentTypeConverter;
-import com.devfrank.hotelmanager.customers.util.enums.DocumentType;
+import com.devfrank.hotelmanager.rooms.util.enums.RoomStatus;
+import com.devfrank.hotelmanager.rooms.util.enums.RoomType;
 import com.devfrank.hotelmanager.shared.constans.JpaConstants;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,11 +23,14 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = JpaConstants.CUSTOMERS_TABLE)
+@Table(name = JpaConstants.ROOMS_TABLE, uniqueConstraints = {
+        @UniqueConstraint(name = JpaConstants.UK_ROOMS_NUMBER, columnNames = "number")
+})
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -33,30 +38,24 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-public class Customer {
+public class Room {
 
     @Id
-    @EqualsAndHashCode.Include
     private UUID id;
 
-    @Column(nullable = false, length = 100)
-    private String names;
+    @Column(nullable = false, length = 3)
+    private String number;
 
-    @Column(nullable = false, length = 100)
-    private String surnames;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private RoomType type;
 
-    @Column(nullable = false, length = 150, unique = true)
-    private String email;
+    @Column(nullable = false)
+    private BigDecimal price;
 
-    @Column(length = 20)
-    private String phone;
-
-    @Convert(converter = DocumentTypeConverter.class)
-    @Column(nullable = false, length = 2)
-    private DocumentType documentType;
-
-    @Column(nullable = false, length = 12, unique = true)
-    private String documentNumber;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private RoomStatus status;
 
     @Column(nullable = false)
     private Boolean isActive;
