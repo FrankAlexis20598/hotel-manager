@@ -5,13 +5,13 @@ import com.devfrank.hotelmanager.rooms.dto.command.CreateRoomCommand;
 import com.devfrank.hotelmanager.rooms.dto.command.UpdateRoomCommand;
 import com.devfrank.hotelmanager.rooms.entity.Room;
 import com.devfrank.hotelmanager.rooms.util.enums.RoomStatus;
-import com.devfrank.hotelmanager.shared.base.BaseMapper;
+import com.devfrank.hotelmanager.shared.base.CrudMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class RoomMapper implements BaseMapper<Room, RoomDTO, CreateRoomCommand, UpdateRoomCommand> {
+public class RoomMapper implements CrudMapper<Room, RoomDTO, CreateRoomCommand, UpdateRoomCommand> {
 
     @Override
     public RoomDTO toDTO(Room entity) {
@@ -42,5 +42,11 @@ public class RoomMapper implements BaseMapper<Room, RoomDTO, CreateRoomCommand, 
         entity.setType(command.type());
         entity.setPrice(command.price());
         entity.setStatus(command.status());
+    }
+
+    public void toEntity(Room entity, CreateRoomCommand command) {
+        entity.setNumber(command.number());
+        entity.setType(command.type());
+        entity.setPrice(command.price());
     }
 }

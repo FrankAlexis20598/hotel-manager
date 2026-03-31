@@ -3,13 +3,13 @@ package com.devfrank.hotelmanager.customers.util.mapper;
 import com.devfrank.hotelmanager.customers.dto.CustomerDTO;
 import com.devfrank.hotelmanager.customers.dto.command.SaveCustomerCommand;
 import com.devfrank.hotelmanager.customers.entity.Customer;
-import com.devfrank.hotelmanager.shared.base.BaseMapper;
+import com.devfrank.hotelmanager.shared.base.CrudMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class CustomerMapper implements BaseMapper<Customer, CustomerDTO, SaveCustomerCommand, SaveCustomerCommand> {
+public class CustomerMapper implements CrudMapper<Customer, CustomerDTO, SaveCustomerCommand, SaveCustomerCommand> {
 
     @Override
     public CustomerDTO toDTO(Customer entity) {

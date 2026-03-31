@@ -1,5 +1,6 @@
 package com.devfrank.hotelmanager.rooms.service.impl;
 
+import com.devfrank.hotelmanager.access.util.mapper.RoleMapper;
 import com.devfrank.hotelmanager.rooms.dto.RoomDTO;
 import com.devfrank.hotelmanager.rooms.dto.command.CreateRoomCommand;
 import com.devfrank.hotelmanager.rooms.dto.command.UpdateRoomCommand;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,6 +23,7 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
+    private final RoleMapper roleMapper;
 
     @Override
     public List<RoomDTO> findAll() {
@@ -38,6 +41,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDTO create(CreateRoomCommand command) {
+        Optional<Room> existing = roomRepository.findByNumberAndIsActiveFalse(command.number());
+
+        if (existing.isPresent()) {
+            return reactivate(existing.get(), command);
+        }
+
         Room room = roomMapper.toEntity(command);
         return roomMapper.toDTO(roomRepository.save(room));
     }
@@ -57,5 +66,11 @@ public class RoomServiceImpl implements RoomService {
                 .orElseThrow(() -> new RoomNotFoundException(id));
         room.setIsActive(false);
         roomRepository.save(room);
+    }
+
+    private RoomDTO reactivate(Room room, CreateRoomCommand command) {
+        roomMapper.toEntity(room, command);
+        room.setIsActive(Boolean.TRUE);
+        return roomMapper.toDTO(roomRepository.save(room));
     }
 }

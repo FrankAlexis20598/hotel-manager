@@ -1,0 +1,58 @@
+[
+  {
+    "id": "f0a1b2c3-d4e5-4f6a-8b9c-0d1e2f3a4b5c",
+    "name": "Administrador",
+    "description": "Acceso total a todos los módulos del sistema",
+    "permissions": [
+      { "id": "18625691-88f5-47e9-867c-179379854495", "module": "Habitaciones", "action": "Ver" },
+      { "id": "3297a7a5-673e-4649-8d8a-6750346a0845", "module": "Habitaciones", "action": "Crear" },
+      { "id": "d5006b50-d46f-4098-9584-7a3c7f3e2e83", "module": "Habitaciones", "action": "Editar" },
+      { "id": "922904e5-950c-4034-8c83-06a1476e3f42", "module": "Habitaciones", "action": "Eliminar" },
+      { "id": "2215e985-364e-4f7c-9b16-928646736486", "module": "Clientes", "action": "Ver" },
+      { "id": "0b58e72c-297c-4740-8f9d-8d5945284347", "module": "Clientes", "action": "Crear" },
+      { "id": "8e4d291e-f3f1-4384-8141-9457313a261a", "module": "Clientes", "action": "Editar" },
+      { "id": "f6c9d09c-76e3-4700-9e6e-21297e64a193", "module": "Clientes", "action": "Eliminar" },
+      { "id": "8f0f0896-1875-488b-b8c7-43c2c4d62164", "module": "Roles y Permisos", "action": "Ver" },
+      { "id": "2b8f8a84-7546-4488-8422-793540c49615", "module": "Roles y Permisos", "action": "Crear" },
+      { "id": "09c6d56d-e462-4217-9154-2975979c3d9a", "module": "Roles y Permisos", "action": "Editar" },
+      { "id": "5b29c91f-8898-4443-8588-440266016147", "module": "Roles y Permisos", "action": "Eliminar" },
+      { "id": "d4e2a14b-70c1-426c-829d-649089069632", "module": "Reservas", "action": "Ver" },
+      { "id": "37a7f45c-20c3-424a-93f5-937243c24194", "module": "Reservas", "action": "Crear" },
+      { "id": "10e9f456-11f4-4148-8998-386477196345", "module": "Reservas", "action": "Editar" },
+      { "id": "9154e190-6744-4691-8402-454567845345", "module": "Reservas", "action": "Eliminar" },
+      { "id": "6f9c2d11-57c4-4245-8c7c-482439343754", "module": "Usuarios", "action": "Ver" },
+      { "id": "3429e710-85f5-47e1-9543-529068475249", "module": "Usuarios", "action": "Crear" },
+      { "id": "189c47a0-9e45-4248-8432-843290632483", "module": "Usuarios", "action": "Editar" },
+      { "id": "4932c10a-374c-4785-8c43-248324832483", "module": "Usuarios", "action": "Eliminar" },
+      { "id": "c293c10a-74c3-4328-8432-843290632483", "module": "Pagos", "action": "Ver" },
+      { "id": "8432c10a-374c-4785-8c43-248324832483", "module": "Pagos", "action": "Crear" },
+      { "id": "9432c10a-374c-4785-8c43-248324832483", "module": "Pagos", "action": "Editar" },
+      { "id": "a432c10a-374c-4785-8c43-248324832483", "module": "Pagos", "action": "Eliminar" }
+    ]
+  },
+  {
+    "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "name": "Recepcionista",
+    "description": "Gestión de habitaciones, clientes y reservas",
+    "permissions": [
+      { "id": "18625691-88f5-47e9-867c-179379854495", "module": "Habitaciones", "action": "Ver" },
+      { "id": "3297a7a5-673e-4649-8d8a-6750346a0845", "module": "Habitaciones", "action": "Crear" },
+      { "id": "d5006b50-d46f-4098-9584-7a3c7f3e2e83", "module": "Habitaciones", "action": "Editar" },
+      { "id": "2215e985-364e-4f7c-9b16-928646736486", "module": "Clientes", "action": "Ver" },
+      { "id": "0b58e72c-297c-4740-8f9d-8d5945284347", "module": "Clientes", "action": "Crear" },
+      { "id": "8e4d291e-f3f1-4384-8141-9457313a261a", "module": "Clientes", "action": "Editar" },
+      { "id": "d4e2a14b-70c1-426c-829d-649089069632", "module": "Reservas", "action": "Ver" },
+      { "id": "37a7f45c-20c3-424a-93f5-937243c24194", "module": "Reservas", "action": "Crear" },
+      { "id": "10e9f456-11f4-4148-8998-386477196345", "module": "Reservas", "action": "Editar" }
+    ]
+  },
+  {
+    "id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+    "name": "Contador",
+    "description": "Gestión y visualización de pagos",
+    "permissions": [
+      { "id": "c293c10a-74c3-4328-8432-843290632483", "module": "Pagos", "action": "Ver" },
+      { "id": "9432c10a-374c-4785-8c43-248324832483", "module": "Pagos", "action": "Editar" }
+    ]
+  }
+]

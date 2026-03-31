@@ -46,20 +46,23 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         String message = ex.getCause().getCause().getMessage().toLowerCase();
-        String responseMessage = "Error de integridad de datos.";
-
-        if (message.contains(JpaConstants.UK_ROOMS_NUMBER)) {
-            responseMessage = "El número de habitación ya está en uso.";
-        }
 
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
-                responseMessage,
+                getHandleDataIntegrityMessage(message),
                 LocalDateTime.now(),
                 null
         );
-
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    private String getHandleDataIntegrityMessage(String message) {
+        return switch (message) {
+            case JpaConstants.UK_ROOMS_NUMBER -> "El número de habitación ya está en uso.";
+            case JpaConstants.UK_PERMISSIONS_MODULE_ACTION -> "El módulo y la acción ya se encuentran en uso.";
+            case JpaConstants.UK_ROLES_NAME -> "El nombre del rol ya está en uso.";
+            default -> "Error de integridad de datos.";
+        };
     }
 
     @ExceptionHandler(Exception.class)

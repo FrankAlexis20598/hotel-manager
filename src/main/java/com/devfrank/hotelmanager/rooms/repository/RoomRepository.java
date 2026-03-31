@@ -11,4 +11,6 @@ public interface RoomRepository extends BaseRepository<Room, UUID> {
     List<Room> findAllByIsActiveTrue();
 
     Optional<Room> findByIdAndIsActiveTrue(UUID id);
+
+    Optional<Room> findByNumberAndIsActiveFalse(String number);
 }
