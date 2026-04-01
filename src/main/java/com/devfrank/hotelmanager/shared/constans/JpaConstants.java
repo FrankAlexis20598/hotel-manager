@@ -7,6 +7,7 @@ public class JpaConstants {
     public static final String PERMISSIONS_TABLE = "permissions";
     public static final String ROLES_TABLE = "roles";
     public static final String ROLE_PERMISSIONS_TABLE = "role_permissions";
+    public static final String USERS_TABLE = "users";
 
     // COLUMNS
     public static final String ROLE_ID_COLUMN = "role_id";
@@ -16,4 +17,8 @@ public class JpaConstants {
     public static final String UK_ROOMS_NUMBER = "uk_rooms_number";
     public static final String UK_PERMISSIONS_MODULE_ACTION = "uk_permissions_module_action";
     public static final String UK_ROLES_NAME = "uk_roles_name";
+    public static final String UK_USERS_EMAIL = "uk_users_email";
+
+    // FOREIGN KEY
+    public static final String FK_USERS_ROLES = "fk_users_roles";
 }

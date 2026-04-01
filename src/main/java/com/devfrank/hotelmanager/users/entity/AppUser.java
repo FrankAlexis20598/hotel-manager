@@ -1,17 +1,16 @@
-package com.devfrank.hotelmanager.access.entity;
+package com.devfrank.hotelmanager.users.entity;
 
+import com.devfrank.hotelmanager.access.entity.Role;
 import com.devfrank.hotelmanager.shared.constans.JpaConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,12 +24,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = JpaConstants.ROLES_TABLE, uniqueConstraints = {
-        @UniqueConstraint(name = JpaConstants.UK_ROLES_NAME, columnNames = "name")
+@Table(name = JpaConstants.USERS_TABLE, uniqueConstraints = {
+        @UniqueConstraint(name = JpaConstants.UK_USERS_EMAIL, columnNames = "email")
 })
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -39,32 +37,31 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-public class Role {
-
-    public Role(UUID id) {
-        this.id = id;
-    }
+public class AppUser {
 
     @Id
     @EqualsAndHashCode.Include
     private UUID id;
 
-    @Column(nullable = false, length = 50)
-    @NotBlank
-    private String name;
+    @Column(nullable = false, length = 150)
+    private String email;
 
     @Column(nullable = false)
-    private String description;
+    private String password;
 
     @Column(nullable = false)
     private Boolean isActive;
+
+    private String resetPasswordToken;
+
+    private LocalDateTime resetPasswordExpiresAt;
 
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String createdBy;
 
     @LastModifiedDate
@@ -72,15 +69,14 @@ public class Role {
     private LocalDateTime updatedAt;
 
     @LastModifiedBy
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String updatedBy;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = JpaConstants.ROLE_PERMISSIONS_TABLE,
-            joinColumns = @JoinColumn(name = JpaConstants.ROLE_ID_COLUMN),
-            inverseJoinColumns = @JoinColumn(name = JpaConstants.PERMISSION_ID_COLUMN),
-            uniqueConstraints = @UniqueConstraint(columnNames = {JpaConstants.ROLE_ID_COLUMN, JpaConstants.PERMISSION_ID_COLUMN})
+    @ManyToOne
+    @JoinColumn(
+            name = JpaConstants.ROLE_ID_COLUMN,
+            nullable = false,
+            foreignKey = @ForeignKey(name = JpaConstants.FK_USERS_ROLES)
     )
-    private List<Permission> permissions;
+    private Role role;
 }
