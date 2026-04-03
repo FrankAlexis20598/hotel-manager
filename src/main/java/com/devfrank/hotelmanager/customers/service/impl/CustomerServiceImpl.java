@@ -8,6 +8,7 @@ import com.devfrank.hotelmanager.customers.repository.CustomerRepository;
 import com.devfrank.hotelmanager.customers.service.CustomerService;
 import com.devfrank.hotelmanager.customers.util.mapper.CustomerMapper;
 import com.devfrank.hotelmanager.customers.util.specs.CustomerSpecs;
+import com.devfrank.hotelmanager.security.util.SecurityUtils;
 import com.devfrank.hotelmanager.shared.constans.ResourceConstants;
 import com.devfrank.hotelmanager.shared.exception.BusinessException;
 import com.devfrank.hotelmanager.shared.exception.DeactivatedCustomerException;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,22 +29,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final SecurityUtils securityUtils;
 
     @Override
     public CustomerDTO create(SaveCustomerRequest request) {
-        Optional<Customer> customerOpt = customerRepository.findByDocumentNumber(request.documentNumber());
+        boolean canViewInactive = securityUtils.hasPermission("CUSTOMER_VER_INACTIVOS");
 
-        if (customerOpt.isPresent()) {
-            Customer customer = customerOpt.get();
-            if (!customer.getIsActive()) {
+        if (!canViewInactive) {
+            Optional<Customer> customerOpt = customerRepository.findByDocumentNumber(request.documentNumber());
+
+            if (customerOpt.isPresent() && !customerOpt.get().getIsActive()) {
                 throw new DeactivatedCustomerException(
                         "El cliente existe pero está dado de baja.",
-                        customer.getId().toString()
+                        customerOpt.get().getId().toString()
                 );
             }
         }
 
-        // TODO Si tiene permisos para ver clientes activos e inactivos, entonces sigue el flujo normal
         Customer customer = customerMapper.toEntity(request);
         return customerMapper.toDTO(customerRepository.save(customer));
     }
@@ -71,7 +74,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Page<CustomerDTO> findAllBy(CustomerCriteria filter, Pageable pageable) {
         Specification<Customer> spec = CustomerSpecs.filter(filter);
-        // TODO Validar rol y permisos para retornar total de clientes o solamente clientes activos.
+        boolean canViewInactive = securityUtils.hasPermission("CUSTOMER_VER_INACTIVOS");
+
+        if (filter.getIsActive() == null) {
+            filter.setIsActive(canViewInactive ? "all" : "true");
+        }
+
+        if ((filter.getIsActive().equals("all")) && !canViewInactive) {
+            throw new AccessDeniedException("No tiene permiso para ver clientes inactivos");
+        }
+
         return customerRepository.findAll(spec, pageable)
                 .map(customerMapper::toDTO);
     }
@@ -81,11 +93,9 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceConstants.CUSTOMER, id.toString()));
 
-        //TODO Verificar el rol del usuario actual
+        boolean canViewInactive = securityUtils.hasPermission("CUSTOMER_VER_INACTIVOS");
 
-        //TODO Si el cliente encontrado es inactivo y tiene permisos solo para consultar cliente activos
-        if (!customer.getIsActive()) {
-            //TODO Si no es admin y el cliente está inactivo, lanzamos 404
+        if (!customer.getIsActive() && !canViewInactive) {
             throw new ResourceNotFoundException(ResourceConstants.CUSTOMER, id.toString());
         }
 
@@ -98,7 +108,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceConstants.CUSTOMER, id.toString()));
 
         if (!customer.getIsActive()) {
-            throw new BusinessException("No es posible editar un cliente inactivo.");
+            throw new BusinessException("No es posible editar un cliente inactivo");
         }
 
         customerMapper.updateEntity(request, customer);

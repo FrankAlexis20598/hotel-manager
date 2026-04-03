@@ -1,12 +1,15 @@
 package com.devfrank.hotelmanager.customers.controller;
 
+import com.devfrank.hotelmanager.customers.dto.filter.CustomerCriteria;
 import com.devfrank.hotelmanager.customers.dto.request.SaveCustomerRequest;
 import com.devfrank.hotelmanager.customers.dto.response.CustomerResponse;
 import com.devfrank.hotelmanager.customers.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,12 +30,10 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<List<CustomerResponse>> findAll() {
-//        List<CustomerResponse> customers = customerService.findAllBy().stream()
-//                .map(CustomerResponse::fromDTO)
-//                .toList();
-//        return ResponseEntity.ok(customers);
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Page<CustomerResponse>> findAll(@Valid CustomerCriteria criteria, @PageableDefault() Pageable pageable) {
+        Page<CustomerResponse> customers = customerService.findAllBy(criteria, pageable)
+                .map(CustomerResponse::fromDTO);
+        return ResponseEntity.ok(customers);
     }
 
     @GetMapping("/{id}")
@@ -59,8 +59,14 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+    @PostMapping("/{id}/reactivate")
+    public ResponseEntity<Void> reactivate(@PathVariable UUID id) {
+        customerService.reactivate(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivate(@PathVariable UUID id) {
         customerService.deactivate(id);
         return ResponseEntity.noContent().build();
     }
