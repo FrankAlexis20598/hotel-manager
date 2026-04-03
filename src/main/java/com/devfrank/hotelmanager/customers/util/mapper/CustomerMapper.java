@@ -1,51 +1,50 @@
 package com.devfrank.hotelmanager.customers.util.mapper;
 
 import com.devfrank.hotelmanager.customers.dto.CustomerDTO;
-import com.devfrank.hotelmanager.customers.dto.command.SaveCustomerCommand;
+import com.devfrank.hotelmanager.customers.dto.request.SaveCustomerRequest;
 import com.devfrank.hotelmanager.customers.entity.Customer;
-import com.devfrank.hotelmanager.shared.base.CrudMapper;
-import org.springframework.stereotype.Component;
+import com.devfrank.hotelmanager.customers.util.enums.DocumentType;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import java.util.UUID;
 
-@Component
-public class CustomerMapper implements CrudMapper<Customer, CustomerDTO, SaveCustomerCommand, SaveCustomerCommand> {
+@Mapper(componentModel = "spring")
+public interface CustomerMapper {
+    CustomerDTO toDTO(Customer customer);
 
-    @Override
-    public CustomerDTO toDTO(Customer entity) {
-        return new CustomerDTO(
-                entity.getId(),
-                entity.getNames(),
-                entity.getSurnames(),
-                entity.getEmail(),
-                entity.getPhone(),
-                entity.getDocumentType(),
-                entity.getDocumentNumber(),
-                entity.getIsActive()
-        );
+    @Mapping(target = "id", expression = "java(defaultValueForId())")
+    @Mapping(target = "isActive", expression = "java(defaultValueForIsActive())")
+    @Mapping(target = "documentType", qualifiedByName = "stringToDocumentType")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    Customer toEntity(SaveCustomerRequest request);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "documentType", qualifiedByName = "stringToDocumentType")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    void updateEntity(SaveCustomerRequest request, @MappingTarget Customer customer);
+
+    @Named("stringToDocumentType")
+    default DocumentType stringToDocumentType(String value) {
+        return DocumentType.fromValue(value);
     }
 
-    @Override
-    public Customer toEntity(SaveCustomerCommand command) {
-        Customer customer = new Customer();
-        customer.setId(UUID.randomUUID());
-        customer.setNames(command.names());
-        customer.setSurnames(command.surnames());
-        customer.setEmail(command.email());
-        customer.setPhone(command.phone());
-        customer.setDocumentType(command.documentType());
-        customer.setDocumentNumber(command.documentNumber());
-        customer.setIsActive(Boolean.TRUE);
-        return customer;
+    @Named("defaultValueForId")
+    default UUID defaultValueForId() {
+        return UUID.randomUUID();
     }
 
-    @Override
-    public void toEntity(Customer entity, SaveCustomerCommand command) {
-        entity.setNames(command.names());
-        entity.setSurnames(command.surnames());
-        entity.setEmail(command.email());
-        entity.setPhone(command.phone());
-        entity.setDocumentType(command.documentType());
-        entity.setDocumentNumber(command.documentNumber());
+    @Named("defaultValueForIsActive")
+    default boolean defaultValueForIsActive() {
+        return Boolean.TRUE;
     }
 }

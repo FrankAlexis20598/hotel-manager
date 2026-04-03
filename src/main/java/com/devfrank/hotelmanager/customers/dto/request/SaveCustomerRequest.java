@@ -1,7 +1,5 @@
 package com.devfrank.hotelmanager.customers.dto.request;
 
-import com.devfrank.hotelmanager.customers.dto.command.SaveCustomerCommand;
-import com.devfrank.hotelmanager.customers.util.enums.DocumentType;
 import com.devfrank.hotelmanager.customers.util.validation.ValidDocument;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -32,14 +30,4 @@ public record SaveCustomerRequest(
         @Pattern(regexp = "^(\\d{8}|[a-zA-Z0-9]{8,12})$", message = "{customer.documentNumber.pattern}")
         String documentNumber
 ) {
-    public SaveCustomerCommand toCommand() {
-        return new SaveCustomerCommand(
-                names,
-                surnames,
-                email,
-                phone,
-                DocumentType.fromValue(documentType),
-                documentNumber
-        );
-    }
 }

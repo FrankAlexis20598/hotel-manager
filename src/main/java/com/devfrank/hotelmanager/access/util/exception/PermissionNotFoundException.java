@@ -1,11 +1,9 @@
 package com.devfrank.hotelmanager.access.util.exception;
 
-import com.devfrank.hotelmanager.shared.exception.ResourceNotFoundException;
-
 import java.util.UUID;
 
-public class PermissionNotFoundException extends ResourceNotFoundException {
+public class PermissionNotFoundException extends RuntimeException {
     public PermissionNotFoundException(UUID id) {
-        super("Permission with id " + id + " not found");
+        super("Could not find room with id " + id);
     }
 }

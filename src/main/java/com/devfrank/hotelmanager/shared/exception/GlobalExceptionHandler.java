@@ -22,8 +22,7 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 ex.getMessage(),
-                LocalDateTime.now(),
-                null
+                LocalDateTime.now()
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -50,8 +49,7 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 getHandleDataIntegrityMessage(message),
-                LocalDateTime.now(),
-                null
+                LocalDateTime.now()
         );
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }

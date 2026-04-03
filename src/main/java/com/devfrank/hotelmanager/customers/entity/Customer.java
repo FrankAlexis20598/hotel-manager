@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,7 +26,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = JpaConstants.CUSTOMERS_TABLE)
+@Table(name = JpaConstants.CUSTOMERS_TABLE, uniqueConstraints = {
+        @UniqueConstraint(name = JpaConstants.UK_CUSTOMERS_EMAIL, columnNames = "email"),
+        @UniqueConstraint(name = JpaConstants.UK_CUSTOMERS_DOCUMENT_NUMBER, columnNames = "documentNumber")
+})
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter

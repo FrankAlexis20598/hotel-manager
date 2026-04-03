@@ -29,10 +29,11 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> findAll() {
-        List<CustomerResponse> customers = customerService.findAll().stream()
-                .map(CustomerResponse::fromDTO)
-                .toList();
-        return ResponseEntity.ok(customers);
+//        List<CustomerResponse> customers = customerService.findAllBy().stream()
+//                .map(CustomerResponse::fromDTO)
+//                .toList();
+//        return ResponseEntity.ok(customers);
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{id}")
@@ -43,7 +44,7 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<CustomerResponse> create(@RequestBody @Valid SaveCustomerRequest request) {
-        CustomerResponse customer = CustomerResponse.fromDTO(customerService.create(request.toCommand()));
+        CustomerResponse customer = CustomerResponse.fromDTO(customerService.create(request));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -54,13 +55,13 @@ public class CustomerController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerResponse> update(@PathVariable UUID id, @RequestBody @Valid SaveCustomerRequest request) {
-        CustomerResponse customer = CustomerResponse.fromDTO(customerService.update(id, request.toCommand()));
+        CustomerResponse customer = CustomerResponse.fromDTO(customerService.update(id, request));
         return ResponseEntity.ok(customer);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
-        customerService.delete(id);
+        customerService.deactivate(id);
         return ResponseEntity.noContent().build();
     }
 }
