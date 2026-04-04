@@ -28,7 +28,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpServletResponse.SC_UNAUTHORIZED,
-                "Unauthorized: " + authException.getMessage(),
+                "No autorizado: Se requiere autenticación completa para acceder a este recurso.",
                 LocalDateTime.now()
         );
 

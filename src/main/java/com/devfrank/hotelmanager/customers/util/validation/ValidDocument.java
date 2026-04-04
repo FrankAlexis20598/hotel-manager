@@ -1,5 +1,6 @@
 package com.devfrank.hotelmanager.customers.util.validation;
 
+import com.devfrank.hotelmanager.shared.constans.ValidationConstants;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -12,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = DocumentValidator.class)
 public @interface ValidDocument {
-    String message() default "{customer.document.invalid}";
+    String message() default ValidationConstants.CUSTOMER_DOCUMENT_INVALID;
 
     Class<?>[] groups() default {};
 

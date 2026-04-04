@@ -1,6 +1,7 @@
 package com.devfrank.hotelmanager.access.dto.request;
 
 import com.devfrank.hotelmanager.access.dto.command.SaveRoleCommand;
+import com.devfrank.hotelmanager.shared.constans.ValidationConstants;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -10,19 +11,19 @@ import java.util.List;
 import java.util.UUID;
 
 public record SaveRoleRequest(
-        @NotBlank(message = "{role.name.not_blank}")
-        @Size(max = 50, message = "{role.name.size}")
+        @NotBlank(message = ValidationConstants.ROLE_NAME_NOT_BLANK)
+        @Size(max = 50, message = ValidationConstants.ROLE_NAME_SIZE)
         String name,
 
-        @NotBlank(message = "{role.description.not_blank}")
-        @Size(max = 255, message = "{role.description.size}")
+        @NotBlank(message = ValidationConstants.ROLE_DESCRIPTION_NOT_BLANK)
+        @Size(max = 255, message = ValidationConstants.ROLE_DESCRIPTION_SIZE)
         String description,
 
-        @NotEmpty(message = "{role.permissions.not_empty}")
+        @NotEmpty(message = ValidationConstants.ROLE_PERMISSIONS_NOT_EMPTY)
         List<
-                @NotBlank(message = "{role.permissions.id.not_blank}")
-                @Size(min = 36, max = 36, message = "{role.permissions.id.size}")
-                @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = "{role.permissions.id.uuid_format}")
+                @NotBlank(message = ValidationConstants.ROLE_PERMISSIONS_ID_NOT_BLANK)
+                @Size(min = 36, max = 36, message = ValidationConstants.ROLE_PERMISSIONS_ID_SIZE)
+                @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = ValidationConstants.ROLE_PERMISSIONS_ID_UUID_FORMAT)
                         String> permissions
 ) {
     public SaveRoleCommand toCommand() {

@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Validation Failed",
+                "La validación falló",
                 LocalDateTime.now(),
                 errors
         );

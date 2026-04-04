@@ -4,6 +4,7 @@ import com.devfrank.hotelmanager.customers.dto.filter.CustomerCriteria;
 import com.devfrank.hotelmanager.customers.dto.request.SaveCustomerRequest;
 import com.devfrank.hotelmanager.customers.dto.response.CustomerResponse;
 import com.devfrank.hotelmanager.customers.service.CustomerService;
+import com.devfrank.hotelmanager.shared.response.PagedResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,10 +31,10 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<Page<CustomerResponse>> findAll(@Valid CustomerCriteria criteria, @PageableDefault() Pageable pageable) {
+    public ResponseEntity<PagedResponse<CustomerResponse>> findAll(@Valid CustomerCriteria criteria, @PageableDefault() Pageable pageable) {
         Page<CustomerResponse> customers = customerService.findAllBy(criteria, pageable)
                 .map(CustomerResponse::fromDTO);
-        return ResponseEntity.ok(customers);
+        return ResponseEntity.ok(PagedResponse.of(customers));
     }
 
     @GetMapping("/{id}")

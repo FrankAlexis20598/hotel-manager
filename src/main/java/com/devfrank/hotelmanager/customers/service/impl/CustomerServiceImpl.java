@@ -9,7 +9,10 @@ import com.devfrank.hotelmanager.customers.service.CustomerService;
 import com.devfrank.hotelmanager.customers.util.mapper.CustomerMapper;
 import com.devfrank.hotelmanager.customers.util.specs.CustomerSpecs;
 import com.devfrank.hotelmanager.security.util.SecurityUtils;
+import com.devfrank.hotelmanager.shared.constans.PermissionsConstants;
+import com.devfrank.hotelmanager.shared.constans.ErrorConstants;
 import com.devfrank.hotelmanager.shared.constans.ResourceConstants;
+import com.devfrank.hotelmanager.shared.constans.UtilConstants;
 import com.devfrank.hotelmanager.shared.exception.BusinessException;
 import com.devfrank.hotelmanager.shared.exception.DeactivatedCustomerException;
 import com.devfrank.hotelmanager.shared.exception.ResourceNotFoundException;
@@ -33,14 +36,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO create(SaveCustomerRequest request) {
-        boolean canViewInactive = securityUtils.hasPermission("CUSTOMER_VER_INACTIVOS");
+        boolean canViewInactive = securityUtils.hasPermission(PermissionsConstants.CLIENTES_VER_INACTIVOS);
 
         if (!canViewInactive) {
             Optional<Customer> customerOpt = customerRepository.findByDocumentNumber(request.documentNumber());
 
             if (customerOpt.isPresent() && !customerOpt.get().getIsActive()) {
                 throw new DeactivatedCustomerException(
-                        "El cliente existe pero está dado de baja.",
+                        ErrorConstants.CUSTOMER_ALREADY_EXISTS_INACTIVE,
                         customerOpt.get().getId().toString()
                 );
             }
@@ -74,14 +77,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Page<CustomerDTO> findAllBy(CustomerCriteria filter, Pageable pageable) {
         Specification<Customer> spec = CustomerSpecs.filter(filter);
-        boolean canViewInactive = securityUtils.hasPermission("CUSTOMER_VER_INACTIVOS");
+        boolean canViewInactive = securityUtils.hasPermission(PermissionsConstants.CLIENTES_VER_INACTIVOS);
 
         if (filter.getIsActive() == null) {
-            filter.setIsActive(canViewInactive ? "all" : "true");
+            filter.setIsActive(canViewInactive
+                    ? UtilConstants.IS_ACTIVE_FILTER_ALL
+                    : UtilConstants.IS_ACTIVE_FILTER_TRUE);
         }
 
-        if ((filter.getIsActive().equals("all")) && !canViewInactive) {
-            throw new AccessDeniedException("No tiene permiso para ver clientes inactivos");
+        if ((filter.getIsActive().equals(UtilConstants.IS_ACTIVE_FILTER_ALL)) && !canViewInactive) {
+            throw new AccessDeniedException(ErrorConstants.CUSTOMER_FORBIDDEN_INACTIVE_VIEW);
         }
 
         return customerRepository.findAll(spec, pageable)
@@ -93,7 +98,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceConstants.CUSTOMER, id.toString()));
 
-        boolean canViewInactive = securityUtils.hasPermission("CUSTOMER_VER_INACTIVOS");
+        boolean canViewInactive = securityUtils.hasPermission(PermissionsConstants.CLIENTES_VER_INACTIVOS);
 
         if (!customer.getIsActive() && !canViewInactive) {
             throw new ResourceNotFoundException(ResourceConstants.CUSTOMER, id.toString());
@@ -108,7 +113,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceConstants.CUSTOMER, id.toString()));
 
         if (!customer.getIsActive()) {
-            throw new BusinessException("No es posible editar un cliente inactivo");
+            throw new BusinessException(ErrorConstants.CUSTOMER_UPDATE_INACTIVE_PROHIBITED);
         }
 
         customerMapper.updateEntity(request, customer);

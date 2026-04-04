@@ -40,11 +40,11 @@ public class JwtService {
                 .compact();
     }
 
-    public String generateRefreshToken(UserDetails userDetails) {
+    public String generateRefreshToken(String username, Date issuedAt, Date expiration) {
         return Jwts.builder()
-                .subject(userDetails.getUsername())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .subject(username)
+                .issuedAt(issuedAt)
+                .expiration(expiration)
                 .signWith(getSigningKey())
                 .compact();
     }

@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface AppUserRepository extends BaseRepository<AppUser, UUID> {
     Optional<AppUser> findByEmail(String email);
+    Optional<AppUser> findByResetPasswordToken(String token);
 }
