@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 @Component
 public class SecurityUtils {
 
+    private static final String ROLE_PREFIX = "ROLE_";
+
     public String getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -21,7 +23,7 @@ public class SecurityUtils {
     }
 
     public boolean hasRole(String role) {
-        return getAuthorities().contains("ROLE_" + role);
+        return getAuthorities().contains(ROLE_PREFIX + role);
     }
 
     public boolean hasPermission(String permission) {

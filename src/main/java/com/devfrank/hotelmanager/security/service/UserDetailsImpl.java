@@ -13,17 +13,20 @@ import java.util.stream.Stream;
 
 public record UserDetailsImpl(AppUser user) implements UserDetails {
 
+    private static final String ROLE_PREFIX = "ROLE_";
+    private static final String UNDERSCORE = "_";
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (user.getRole() == null) {
             return Collections.emptyList();
         }
 
-        GrantedAuthority roleAuthority = new SimpleGrantedAuthority("ROLE_" + user.getRole().getName().toUpperCase());
+        GrantedAuthority roleAuthority = new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole().getName().toUpperCase());
 
         List<SimpleGrantedAuthority> permissionAuthorities = user.getRole().getPermissions() != null
                 ? user.getRole().getPermissions().stream()
-                  .map(p -> new SimpleGrantedAuthority((p.getModule() + "_" + p.getAction()).toUpperCase()))
+                  .map(p -> new SimpleGrantedAuthority((p.getModule() + UNDERSCORE + p.getAction()).toUpperCase()))
                   .toList()
                 : Collections.emptyList();
 
