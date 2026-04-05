@@ -31,7 +31,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<PagedResponse<CustomerResponse>> findAll(@Valid CustomerCriteria criteria, @PageableDefault() Pageable pageable) {
+    public ResponseEntity<PagedResponse<CustomerResponse>> findAll(@Valid CustomerCriteria criteria, @PageableDefault Pageable pageable) {
         Page<CustomerResponse> customers = customerService.findAllBy(criteria, pageable)
                 .map(CustomerResponse::fromDTO);
         return ResponseEntity.ok(PagedResponse.of(customers));

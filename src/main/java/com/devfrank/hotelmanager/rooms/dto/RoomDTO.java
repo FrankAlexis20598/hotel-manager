@@ -11,6 +11,7 @@ public record RoomDTO(
         String number,
         RoomType type,
         BigDecimal price,
-        RoomStatus status
+        RoomStatus status,
+        Boolean isActive
 ) {
 }

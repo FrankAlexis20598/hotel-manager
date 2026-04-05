@@ -9,12 +9,12 @@ import com.devfrank.hotelmanager.customers.service.CustomerService;
 import com.devfrank.hotelmanager.customers.util.mapper.CustomerMapper;
 import com.devfrank.hotelmanager.customers.util.specs.CustomerSpecs;
 import com.devfrank.hotelmanager.security.util.SecurityUtils;
-import com.devfrank.hotelmanager.shared.constans.PermissionsConstants;
 import com.devfrank.hotelmanager.shared.constans.ErrorConstants;
+import com.devfrank.hotelmanager.shared.constans.PermissionsConstants;
 import com.devfrank.hotelmanager.shared.constans.ResourceConstants;
 import com.devfrank.hotelmanager.shared.constans.UtilConstants;
 import com.devfrank.hotelmanager.shared.exception.BusinessException;
-import com.devfrank.hotelmanager.shared.exception.DeactivatedCustomerException;
+import com.devfrank.hotelmanager.shared.exception.DeactivatedResourceException;
 import com.devfrank.hotelmanager.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
             Optional<Customer> customerOpt = customerRepository.findByDocumentNumber(request.documentNumber());
 
             if (customerOpt.isPresent() && !customerOpt.get().getIsActive()) {
-                throw new DeactivatedCustomerException(
+                throw new DeactivatedResourceException(
                         ErrorConstants.CUSTOMER_ALREADY_EXISTS_INACTIVE,
                         customerOpt.get().getId().toString()
                 );
@@ -85,12 +85,11 @@ public class CustomerServiceImpl implements CustomerService {
                     : UtilConstants.IS_ACTIVE_FILTER_TRUE);
         }
 
-        if ((filter.getIsActive().equals(UtilConstants.IS_ACTIVE_FILTER_ALL)) && !canViewInactive) {
+        if (filter.getIsActive().equals(UtilConstants.IS_ACTIVE_FILTER_ALL) && !canViewInactive) {
             throw new AccessDeniedException(ErrorConstants.CUSTOMER_FORBIDDEN_INACTIVE_VIEW);
         }
 
-        return customerRepository.findAll(spec, pageable)
-                .map(customerMapper::toDTO);
+        return customerRepository.findAll(spec, pageable).map(customerMapper::toDTO);
     }
 
     @Override
@@ -101,7 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
         boolean canViewInactive = securityUtils.hasPermission(PermissionsConstants.CLIENTES_VER_INACTIVOS);
 
         if (!customer.getIsActive() && !canViewInactive) {
-            throw new ResourceNotFoundException(ResourceConstants.CUSTOMER, id.toString());
+            throw new ResourceNotFoundException(ResourceConstants.CUSTOMER, customer.getId().toString());
         }
 
         return customerMapper.toDTO(customer);

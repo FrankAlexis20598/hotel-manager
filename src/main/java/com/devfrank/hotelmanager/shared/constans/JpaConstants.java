@@ -1,6 +1,11 @@
 package com.devfrank.hotelmanager.shared.constans;
 
 public class JpaConstants {
+
+    private JpaConstants() {
+        throw new IllegalStateException("Utility class");
+    }
+
     // TABLES
     public static final String ROOMS_TABLE = "rooms";
     public static final String CUSTOMERS_TABLE = "customers";
