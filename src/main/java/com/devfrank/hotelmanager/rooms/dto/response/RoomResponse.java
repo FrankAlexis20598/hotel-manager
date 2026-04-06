@@ -1,9 +1,11 @@
 package com.devfrank.hotelmanager.rooms.dto.response;
 
 import com.devfrank.hotelmanager.rooms.dto.RoomDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record RoomResponse(
         String id,
         String number,

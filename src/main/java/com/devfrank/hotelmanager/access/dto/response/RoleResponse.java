@@ -1,9 +1,11 @@
 package com.devfrank.hotelmanager.access.dto.response;
 
 import com.devfrank.hotelmanager.access.dto.RoleDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record RoleResponse(
         String id,
         String name,

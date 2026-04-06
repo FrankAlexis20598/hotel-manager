@@ -1,4 +1,4 @@
-package com.devfrank.hotelmanager.shared.base;
+package com.devfrank.hotelmanager.shared.base.repository;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;

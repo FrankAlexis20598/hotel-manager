@@ -1,6 +1,6 @@
 package com.devfrank.hotelmanager.users.repository;
 
-import com.devfrank.hotelmanager.shared.base.BaseRepository;
+import com.devfrank.hotelmanager.shared.base.repository.BaseRepository;
 import com.devfrank.hotelmanager.users.entity.AppUser;
 
 import org.springframework.data.jpa.repository.Query;

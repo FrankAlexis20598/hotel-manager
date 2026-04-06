@@ -9,4 +9,5 @@ public class ResourceConstants {
     public static final String CUSTOMER = "Customer";
     public static final String USER = "User";
     public static final String ROOM = "Room";
+    public static final String ROLE = "Role";
 }

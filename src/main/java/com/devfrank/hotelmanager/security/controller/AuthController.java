@@ -1,11 +1,11 @@
 package com.devfrank.hotelmanager.security.controller;
 
-import com.devfrank.hotelmanager.security.dto.ForgotPasswordRequest;
-import com.devfrank.hotelmanager.security.dto.LoginRequest;
-import com.devfrank.hotelmanager.security.dto.LogoutRequest;
-import com.devfrank.hotelmanager.security.dto.ResetPasswordRequest;
-import com.devfrank.hotelmanager.security.dto.TokenResponse;
-import com.devfrank.hotelmanager.security.dto.UserMeResponse;
+import com.devfrank.hotelmanager.security.dto.request.ForgotPasswordRequest;
+import com.devfrank.hotelmanager.security.dto.request.LoginRequest;
+import com.devfrank.hotelmanager.security.dto.request.LogoutRequest;
+import com.devfrank.hotelmanager.security.dto.request.ResetPasswordRequest;
+import com.devfrank.hotelmanager.security.dto.response.TokenResponse;
+import com.devfrank.hotelmanager.security.dto.response.UserMeResponse;
 import com.devfrank.hotelmanager.security.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

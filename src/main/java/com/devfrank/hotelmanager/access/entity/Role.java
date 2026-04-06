@@ -75,7 +75,7 @@ public class Role {
     @Column(nullable = false)
     private String updatedBy;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = JpaConstants.ROLE_PERMISSIONS_TABLE,
             joinColumns = @JoinColumn(name = JpaConstants.ROLE_ID_COLUMN),

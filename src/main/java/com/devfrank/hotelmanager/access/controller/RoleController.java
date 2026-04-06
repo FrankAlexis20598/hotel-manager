@@ -1,13 +1,17 @@
 package com.devfrank.hotelmanager.access.controller;
 
+import com.devfrank.hotelmanager.access.dto.filter.RoleCriteria;
 import com.devfrank.hotelmanager.access.dto.request.SaveRoleRequest;
 import com.devfrank.hotelmanager.access.dto.response.RoleResponse;
 import com.devfrank.hotelmanager.access.service.RoleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,10 +31,9 @@ public class RoleController {
     private final RoleService roleService;
 
     @GetMapping
-    public ResponseEntity<List<RoleResponse>> findAll() {
-        List<RoleResponse> roles = roleService.findAll().stream()
-                .map(RoleResponse::fromDTO)
-                .toList();
+    public ResponseEntity<Page<RoleResponse>> findAll(@Valid RoleCriteria criteria, @PageableDefault Pageable pageable) {
+        Page<RoleResponse> roles = roleService.findAllBy(criteria, pageable)
+                .map(RoleResponse::fromDTO);
         return ResponseEntity.ok(roles);
     }
 
@@ -43,7 +45,7 @@ public class RoleController {
 
     @PostMapping
     public ResponseEntity<RoleResponse> create(@RequestBody @Valid SaveRoleRequest request) {
-        RoleResponse role = RoleResponse.fromDTO(roleService.create(request.toCommand()));
+        RoleResponse role = RoleResponse.fromDTO(roleService.create(request));
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -54,13 +56,19 @@ public class RoleController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RoleResponse> update(@PathVariable UUID id, @RequestBody @Valid SaveRoleRequest request) {
-        RoleResponse role = RoleResponse.fromDTO(roleService.update(id, request.toCommand()));
+        RoleResponse role = RoleResponse.fromDTO(roleService.update(id, request));
         return ResponseEntity.ok(role);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        roleService.delete(id);
+    @PatchMapping("/{id}/reactivate")
+    public ResponseEntity<Void> reactivate(@PathVariable UUID id) {
+        roleService.reactivate(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivate(@PathVariable UUID id) {
+        roleService.deactivate(id);
         return ResponseEntity.noContent().build();
     }
 }

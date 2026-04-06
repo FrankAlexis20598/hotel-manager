@@ -1,6 +1,6 @@
 package com.devfrank.hotelmanager.access.controller;
 
-import com.devfrank.hotelmanager.access.dto.response.PermissionItemResponse;
+import com.devfrank.hotelmanager.access.dto.response.PermissionResponse;
 import com.devfrank.hotelmanager.access.service.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +20,14 @@ public class PermissionController {
     private final PermissionService permissionService;
 
     @GetMapping("/grouped")
-    public ResponseEntity<Map<String, List<PermissionItemResponse>>> getPermissionsByModule() {
-        Map<String, List<PermissionItemResponse>> response = permissionService.getGroupedByModule().entrySet()
+    public ResponseEntity<Map<String, List<PermissionResponse>>> getPermissionsByModule() {
+        Map<String, List<PermissionResponse>> response = permissionService.getGroupedByModule().entrySet()
                 .stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         entry -> entry.getValue()
                                 .stream()
-                                .map(PermissionItemResponse::fromDTO)
+                                .map(PermissionResponse::fromDTO)
                                 .toList()
                 ));
         return ResponseEntity.ok(response);

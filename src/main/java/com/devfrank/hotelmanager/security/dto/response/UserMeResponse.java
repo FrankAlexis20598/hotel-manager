@@ -1,4 +1,4 @@
-package com.devfrank.hotelmanager.security.dto;
+package com.devfrank.hotelmanager.security.dto.response;
 
 import lombok.Builder;
 import java.util.Set;

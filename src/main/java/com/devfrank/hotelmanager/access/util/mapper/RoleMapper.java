@@ -1,46 +1,45 @@
 package com.devfrank.hotelmanager.access.util.mapper;
 
 import com.devfrank.hotelmanager.access.dto.RoleDTO;
-import com.devfrank.hotelmanager.access.dto.command.SaveRoleCommand;
+import com.devfrank.hotelmanager.access.dto.request.SaveRoleRequest;
 import com.devfrank.hotelmanager.access.entity.Role;
-import com.devfrank.hotelmanager.shared.base.CrudMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import java.util.UUID;
 
-@Component
-@RequiredArgsConstructor
-public class RoleMapper implements CrudMapper<Role, RoleDTO, SaveRoleCommand, SaveRoleCommand> {
+@Mapper(componentModel = "spring", uses = {PermissionMapper.class})
+public interface RoleMapper {
+    @Mapping(target = "permissions", qualifiedByName = "toDTO")
+    RoleDTO toDTO(Role role);
 
-    private final PermissionMapper permissionMapper;
+    @Mapping(target = "id", expression = "java(defaultValueForId())")
+    @Mapping(target = "isActive", expression = "java(defaultValueForIsActive())")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "permissions", ignore = true)
+    Role toEntity(SaveRoleRequest request);
 
-    @Override
-    public RoleDTO toDTO(Role entity) {
-        return new RoleDTO(
-                entity.getId(),
-                entity.getName(),
-                entity.getDescription(),
-                permissionMapper.toDTOs(entity.getPermissions())
-        );
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "permissions", ignore = true)
+    void updateEntity(SaveRoleRequest request, @MappingTarget Role role);
+
+    @Named("defaultValueForId")
+    default UUID defaultValueForId() {
+        return UUID.randomUUID();
     }
 
-    @Override
-    public Role toEntity(SaveRoleCommand command) {
-        Role role = new Role();
-        role.setId(UUID.randomUUID());
-        role.setName(command.name());
-        role.setDescription(command.description());
-        role.setIsActive(Boolean.TRUE);
-        role.setPermissions(permissionMapper.fromListUUIDs(command.permissions()));
-        return role;
-    }
-
-    @Override
-    public void toEntity(Role entity, SaveRoleCommand command) {
-        entity.setName(command.name());
-        entity.setDescription(command.description());
-        entity.getPermissions().clear();
-        entity.getPermissions().addAll(permissionMapper.fromListUUIDs(command.permissions()));
+    @Named("defaultValueForIsActive")
+    default boolean defaultValueForIsActive() {
+        return Boolean.TRUE;
     }
 }

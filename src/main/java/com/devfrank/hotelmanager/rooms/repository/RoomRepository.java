@@ -1,7 +1,7 @@
 package com.devfrank.hotelmanager.rooms.repository;
 
 import com.devfrank.hotelmanager.rooms.entity.Room;
-import com.devfrank.hotelmanager.shared.base.SearchableRepository;
+import com.devfrank.hotelmanager.shared.base.repository.SearchableRepository;
 
 import java.util.Optional;
 import java.util.UUID;
