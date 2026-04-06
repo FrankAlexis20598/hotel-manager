@@ -15,4 +15,5 @@ public interface RoleService extends
         CreateService<SaveRoleRequest, RoleDTO>,
         UpdateService<UUID, SaveRoleRequest, RoleDTO>,
         LifecycleService<UUID> {
+    void validateExists(UUID id);
 }

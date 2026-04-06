@@ -21,10 +21,9 @@ public interface PermissionMapper {
     @Mapping(target = "description", source = "description")
     PermissionDTO toSummaryDTO(Permission permission);
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "module", ignore = true)
-    @Mapping(target = "action", ignore = true)
-    @Mapping(target = "description", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    Permission fromId(UUID id);
+    @Named("idToEntity")
+    default Permission idToEntity(UUID id) {
+        if (id == null) return null;
+        return new Permission(id);
+    }
 }

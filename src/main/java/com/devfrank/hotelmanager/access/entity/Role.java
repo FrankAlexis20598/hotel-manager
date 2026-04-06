@@ -25,6 +25,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -82,5 +83,5 @@ public class Role {
             inverseJoinColumns = @JoinColumn(name = JpaConstants.PERMISSION_ID_COLUMN),
             uniqueConstraints = @UniqueConstraint(columnNames = {JpaConstants.ROLE_ID_COLUMN, JpaConstants.PERMISSION_ID_COLUMN})
     )
-    private List<Permission> permissions;
+    private List<Permission> permissions = new ArrayList<>();
 }

@@ -1,11 +1,13 @@
 package com.devfrank.hotelmanager.users.dto.response;
 
 import com.devfrank.hotelmanager.users.dto.AppUserDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record AppUserResponse(
         String id,
         String email,
-        boolean isActive,
+        Boolean isActive,
         RoleResponse role
 ) {
     public record RoleResponse(

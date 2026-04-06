@@ -1,49 +1,52 @@
 package com.devfrank.hotelmanager.users.util.mapper;
 
-import com.devfrank.hotelmanager.access.util.mapper.RoleSummaryMapper;
-import com.devfrank.hotelmanager.shared.base.CrudMapper;
+import com.devfrank.hotelmanager.access.util.mapper.RoleMapper;
 import com.devfrank.hotelmanager.users.dto.AppUserDTO;
-import com.devfrank.hotelmanager.users.dto.command.CreateAppUserCommand;
-import com.devfrank.hotelmanager.users.dto.command.UpdateAppUserCommand;
+import com.devfrank.hotelmanager.users.dto.request.SaveAppUserRequest;
 import com.devfrank.hotelmanager.users.entity.AppUser;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import java.util.UUID;
 
-@Component
-@RequiredArgsConstructor
-public class AppUserMapper implements CrudMapper<AppUser, AppUserDTO, CreateAppUserCommand, UpdateAppUserCommand> {
+@Mapper(componentModel = "spring", uses = {RoleMapper.class})
+public interface AppUserMapper {
 
-    private final RoleSummaryMapper roleSummaryMapper;
+    @Mapping(target = "role", qualifiedByName = "toSummaryDTO")
+    AppUserDTO toDTO(AppUser appUser);
 
-    @Override
-    public AppUser toEntity(CreateAppUserCommand command) {
-        AppUser appUser = new AppUser();
-        appUser.setId(UUID.randomUUID());
-        appUser.setEmail(command.email());
-        appUser.setPassword(command.password()); // TODO usar Bcrypt
-        appUser.setIsActive(Boolean.TRUE);
-        appUser.setRole(roleSummaryMapper.fromUUID(command.roleId()));
-        return appUser;
+    @Mapping(target = "id", expression = "java(defaultValueForId())")
+    @Mapping(target = "isActive", expression = "java(defaultValueForIsActive())")
+    @Mapping(target = "resetPasswordToken", ignore = true)
+    @Mapping(target = "resetPasswordExpiresAt", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "role", source = "roleId", qualifiedByName = "idToEntity")
+    AppUser toEntity(SaveAppUserRequest saveAppUserRequest);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "resetPasswordToken", ignore = true)
+    @Mapping(target = "resetPasswordExpiresAt", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "role", source = "roleId", qualifiedByName = "idToEntity")
+    void updateEntity(SaveAppUserRequest saveAppUserRequest, @MappingTarget AppUser appUser);
+
+    @Named("defaultValueForId")
+    default UUID defaultValueForId() {
+        return UUID.randomUUID();
     }
 
-    @Override
-    public void toEntity(AppUser entity, UpdateAppUserCommand command) {
-        entity.setEmail(command.email());
-        entity.setPassword(command.password());
-        entity.setIsActive(command.isActive());
-        entity.setRole(roleSummaryMapper.fromUUID(command.roleId()));
-    }
-
-    @Override
-    public AppUserDTO toDTO(AppUser entity) {
-        return new AppUserDTO(
-                entity.getId(),
-                entity.getEmail(),
-                entity.getPassword(),
-                entity.getIsActive(),
-                roleSummaryMapper.toDTO(entity.getRole())
-        );
+    @Named("defaultValueForIsActive")
+    default boolean defaultValueForIsActive() {
+        return Boolean.TRUE;
     }
 }

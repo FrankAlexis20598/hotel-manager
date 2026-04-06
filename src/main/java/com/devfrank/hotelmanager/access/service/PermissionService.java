@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface PermissionService {
     Map<String, List<PermissionDTO>> getGroupedByModule();
 
-    List<PermissionDTO> findByIdIn(List<UUID> ids);
+    void ensureAllExist(List<UUID> ids);
 }
