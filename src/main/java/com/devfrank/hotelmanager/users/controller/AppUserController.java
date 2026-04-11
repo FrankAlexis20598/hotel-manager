@@ -1,5 +1,6 @@
 package com.devfrank.hotelmanager.users.controller;
 
+import com.devfrank.hotelmanager.shared.response.PagedResponse;
 import com.devfrank.hotelmanager.users.dto.filter.AppUserCriteria;
 import com.devfrank.hotelmanager.users.dto.request.SaveAppUserRequest;
 import com.devfrank.hotelmanager.users.dto.response.AppUserResponse;
@@ -31,10 +32,11 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     @GetMapping
-    public ResponseEntity<Page<AppUserResponse>> findAll(@Valid AppUserCriteria criteria, @PageableDefault Pageable pageable) {
+    public ResponseEntity<PagedResponse<AppUserResponse>> findAll(@Valid AppUserCriteria criteria,
+                                                                  @PageableDefault Pageable pageable) {
         Page<AppUserResponse> users = appUserService.findAllBy(criteria, pageable)
                 .map(AppUserResponse::fromDTO);
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(PagedResponse.of(users));
     }
 
     @GetMapping("/{id}")
@@ -55,7 +57,8 @@ public class AppUserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AppUserResponse> update(@PathVariable UUID id, @RequestBody @Valid SaveAppUserRequest request) {
+    public ResponseEntity<AppUserResponse> update(@PathVariable UUID id,
+                                                  @RequestBody @Valid SaveAppUserRequest request) {
         AppUserResponse user = AppUserResponse.fromDTO(appUserService.update(id, request));
         return ResponseEntity.ok(user);
     }

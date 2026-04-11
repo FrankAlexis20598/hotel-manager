@@ -4,6 +4,7 @@ import com.devfrank.hotelmanager.access.dto.filter.RoleCriteria;
 import com.devfrank.hotelmanager.access.dto.request.SaveRoleRequest;
 import com.devfrank.hotelmanager.access.dto.response.RoleResponse;
 import com.devfrank.hotelmanager.access.service.RoleService;
+import com.devfrank.hotelmanager.shared.response.PagedResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,10 +32,11 @@ public class RoleController {
     private final RoleService roleService;
 
     @GetMapping
-    public ResponseEntity<Page<RoleResponse>> findAll(@Valid RoleCriteria criteria, @PageableDefault Pageable pageable) {
+    public ResponseEntity<PagedResponse<RoleResponse>> findAll(@Valid RoleCriteria criteria,
+                                                               @PageableDefault Pageable pageable) {
         Page<RoleResponse> roles = roleService.findAllBy(criteria, pageable)
                 .map(RoleResponse::fromDTO);
-        return ResponseEntity.ok(roles);
+        return ResponseEntity.ok(PagedResponse.of(roles));
     }
 
     @GetMapping("/{id}")
@@ -55,7 +57,8 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoleResponse> update(@PathVariable UUID id, @RequestBody @Valid SaveRoleRequest request) {
+    public ResponseEntity<RoleResponse> update(@PathVariable UUID id,
+                                               @RequestBody @Valid SaveRoleRequest request) {
         RoleResponse role = RoleResponse.fromDTO(roleService.update(id, request));
         return ResponseEntity.ok(role);
     }

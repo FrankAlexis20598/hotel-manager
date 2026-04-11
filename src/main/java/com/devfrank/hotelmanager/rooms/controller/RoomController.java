@@ -33,7 +33,8 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping
-    public ResponseEntity<PagedResponse<RoomResponse>> findAll(@Valid RoomCriteria criteria, @PageableDefault Pageable pageable) {
+    public ResponseEntity<PagedResponse<RoomResponse>> findAll(@Valid RoomCriteria criteria,
+                                                               @PageableDefault Pageable pageable) {
         Page<RoomResponse> rooms = roomService.findAllBy(criteria, pageable)
                 .map(RoomResponse::fromDTO);
         return ResponseEntity.ok(PagedResponse.of(rooms));
@@ -57,7 +58,8 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoomResponse> update(@PathVariable UUID id, @RequestBody @Valid SaveRoomRequest request) {
+    public ResponseEntity<RoomResponse> update(@PathVariable UUID id,
+                                               @RequestBody @Valid SaveRoomRequest request) {
         RoomResponse room = RoomResponse.fromDTO(roomService.update(id, request));
         return ResponseEntity.ok(room);
     }
@@ -75,7 +77,8 @@ public class RoomController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Void> updateStatus(@PathVariable UUID id, @RequestBody @Valid UpdateRoomStatusRequest request) {
+    public ResponseEntity<Void> updateStatus(@PathVariable UUID id,
+                                             @RequestBody @Valid UpdateRoomStatusRequest request) {
         roomService.updateStatus(id, request);
         return ResponseEntity.noContent().build();
     }

@@ -31,7 +31,8 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<PagedResponse<CustomerResponse>> findAll(@Valid CustomerCriteria criteria, @PageableDefault Pageable pageable) {
+    public ResponseEntity<PagedResponse<CustomerResponse>> findAll(@Valid CustomerCriteria criteria,
+                                                                   @PageableDefault Pageable pageable) {
         Page<CustomerResponse> customers = customerService.findAllBy(criteria, pageable)
                 .map(CustomerResponse::fromDTO);
         return ResponseEntity.ok(PagedResponse.of(customers));
@@ -55,7 +56,8 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> update(@PathVariable UUID id, @RequestBody @Valid SaveCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> update(@PathVariable UUID id,
+                                                   @RequestBody @Valid SaveCustomerRequest request) {
         CustomerResponse customer = CustomerResponse.fromDTO(customerService.update(id, request));
         return ResponseEntity.ok(customer);
     }
