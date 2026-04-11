@@ -1,7 +1,7 @@
-package com.devfrank.hotelmanager.rooms.entity;
+package com.devfrank.hotelmanager.payments.entity;
 
-import com.devfrank.hotelmanager.rooms.util.enums.RoomStatus;
-import com.devfrank.hotelmanager.rooms.util.enums.RoomType;
+import com.devfrank.hotelmanager.payments.util.enums.PaymentMethod;
+import com.devfrank.hotelmanager.payments.util.enums.PaymentStatus;
 import com.devfrank.hotelmanager.shared.constans.JpaConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +10,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,13 +23,12 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = JpaConstants.ROOMS_TABLE, uniqueConstraints = {
-        @UniqueConstraint(name = JpaConstants.UK_ROOMS_NUMBER, columnNames = "number")
-})
+@Table(name = JpaConstants.PAYMENTS_TABLE)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -38,28 +36,30 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-public class Room {
+public class Payment {
 
     @Id
     @EqualsAndHashCode.Include
     private UUID id;
 
-    @Column(nullable = false, length = 3)
-    private String number;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 50)
-    private RoomType type;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private LocalDate paymentDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private RoomStatus status;
+    private PaymentMethod paymentMethod;
 
-    @Column(nullable = false)
-    private Boolean isActive;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private PaymentStatus status;
+
+    private String statusReason;
+
+    @Column(length = 500)
+    private String observations;
 
     @CreatedDate
     @Column(nullable = false)

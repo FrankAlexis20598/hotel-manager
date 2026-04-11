@@ -14,6 +14,7 @@ public class JpaConstants {
     public static final String ROLE_PERMISSIONS_TABLE = "role_permissions";
     public static final String USERS_TABLE = "users";
     public static final String REFRESH_TOKENS_TABLE = "refresh_tokens";
+    public static final String PAYMENTS_TABLE = "payments";
 
     // TABLE COLUMNS
     public static final String ROLE_ID_COLUMN = "role_id";

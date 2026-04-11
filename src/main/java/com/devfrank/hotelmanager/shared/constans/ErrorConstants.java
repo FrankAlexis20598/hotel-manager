@@ -23,4 +23,9 @@ public class ErrorConstants {
     public static final String ROOM_UPDATE_INACTIVE_PROHIBITED = "No es posible editar una habitación inactivo";
     public static final String ROOM_STATUS_UPDATE_INACTIVE_PROHIBITED = "No es posible editar el estado de una habitación inactivo";
     public static final String ROOM_MAINTENANCE_ONLY_AVAILABLE = "La habitación está en mantenimiento y solo puede marcarse como disponible.";
+
+    // Payment Exceptions
+    public static final String PAYMENT_COMPLETION_INVALID_STATE = "No se pudo completar el pago: Solo se permiten transiciones desde el estado %s. Estado actual: %s";
+    public static final String PAYMENT_CANCELLATION_INVALID_STATE = "No se pudo anular el pago: Solo es posible anular pagos en estado %s o %s. Estado actual: %s";
+    public static final String PAYMENT_REFUND_INVALID_STATE = "No se pudo procesar el reembolso: Un pago solo puede ser reembolsado si su estado es %s. Estado actual: %s";
 }

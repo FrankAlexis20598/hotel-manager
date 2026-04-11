@@ -40,4 +40,12 @@ public class ValidationConstants {
     public static final String ROOM_PRICE_MIN = "El precio debe ser mayor que cero";
     public static final String ROOM_STATUS_NOT_BLANK = "El estado de la habitación no puede estar vacío";
     public static final String ROOM_STATUS_INVALID = "El estado de la habitación no es válido. Los estados permitidos son: DISPONIBLE, OCUPADA, MANTENIMIENTO";
+
+    // Payment Validations
+    public static final String PAYMENT_STATUS_INVALID = "El estado de pago no es válido. Los estados permitidos son: PENDIENTE, PAGADO, ANULADO, REEMBOLSADO";
+    public static final String PAYMENT_METHOD_INVALID = "El método de pago no es válido. Los métodos permitidos son: EFECTIVO, TARJETA_DEBITO, TARJETA_CREDITO, TRANSFERENCIA, BILLETERA_DIGITAL";
+    public static final String PAYMENT_DATE_FORMAT_INVALID = "El formato de fecha debe ser YYYY-MM-DD";
+
+    // Generic Validations
+    public static final String FIELD_NOT_BLANK_IF_PRESENT = "Si se proporciona, el campo no puede estar vacío";
 }
