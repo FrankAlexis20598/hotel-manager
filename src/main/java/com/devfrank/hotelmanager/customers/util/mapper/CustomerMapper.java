@@ -15,6 +15,10 @@ import java.util.UUID;
 public interface CustomerMapper {
     CustomerDTO toDTO(Customer customer);
 
+    @Named("toSummaryDTO")
+    @Mapping(target = "isActive", ignore = true)
+    CustomerDTO toSummaryDTO(Customer customer);
+
     @Mapping(target = "id", expression = "java(defaultValueForId())")
     @Mapping(target = "isActive", expression = "java(defaultValueForIsActive())")
     @Mapping(target = "documentType", qualifiedByName = "stringToDocumentType")
@@ -46,5 +50,10 @@ public interface CustomerMapper {
     @Named("defaultValueForIsActive")
     default boolean defaultValueForIsActive() {
         return Boolean.TRUE;
+    }
+
+    @Named("idToEntity")
+    default Customer idToEntity(UUID id) {
+        return new Customer(id);
     }
 }

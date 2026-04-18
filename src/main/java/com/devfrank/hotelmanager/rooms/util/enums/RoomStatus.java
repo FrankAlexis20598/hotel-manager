@@ -1,7 +1,7 @@
 package com.devfrank.hotelmanager.rooms.util.enums;
 
 public enum RoomStatus {
-    DISPONIBLE, OCUPADA, MANTENIMIENTO;
+    DISPONIBLE, OCUPADA, LIMPIEZA, MANTENIMIENTO;
 
     public static RoomStatus fromStatus(String roomStatus) {
         for (RoomStatus status : RoomStatus.values()) {

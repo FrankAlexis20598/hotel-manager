@@ -40,6 +40,10 @@ import java.util.UUID;
 @ToString
 public class Room {
 
+    public Room(UUID id) {
+        this.id = id;
+    }
+
     @Id
     @EqualsAndHashCode.Include
     private UUID id;

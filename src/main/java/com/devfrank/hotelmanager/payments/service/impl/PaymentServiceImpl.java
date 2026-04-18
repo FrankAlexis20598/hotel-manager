@@ -56,9 +56,9 @@ public class PaymentServiceImpl implements PaymentService {
         Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceConstants.PAYMENT, id.toString()));
 
-        if (payment.getStatus() != PaymentStatus.PENDIENTE && payment.getStatus() != PaymentStatus.PAGADO) {
+        if (payment.getStatus() != PaymentStatus.PENDIENTE) {
             throw new BusinessException(String.format(ErrorConstants.PAYMENT_CANCELLATION_INVALID_STATE,
-                    PaymentStatus.PENDIENTE, PaymentStatus.PAGADO, payment.getStatus()));
+                    PaymentStatus.PENDIENTE, payment.getStatus()));
         }
 
         payment.setStatusReason(request.reason());

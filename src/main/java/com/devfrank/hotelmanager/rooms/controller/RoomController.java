@@ -54,7 +54,7 @@ public class RoomController {
                 .path("/{id}")
                 .buildAndExpand(room.id())
                 .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(room);
     }
 
     @PutMapping("/{id}")

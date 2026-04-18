@@ -2,6 +2,7 @@ package com.devfrank.hotelmanager.payments.entity;
 
 import com.devfrank.hotelmanager.payments.util.enums.PaymentMethod;
 import com.devfrank.hotelmanager.payments.util.enums.PaymentStatus;
+import com.devfrank.hotelmanager.reservations.entity.Reservation;
 import com.devfrank.hotelmanager.shared.constans.JpaConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +10,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -76,4 +79,8 @@ public class Payment {
     @LastModifiedBy
     @Column(nullable = false, length = 150)
     private String updatedBy;
+
+    @ManyToOne
+    @JoinColumn(name = JpaConstants.RESERVATION_ID_COLUMN, nullable = false)
+    private Reservation reservation;
 }

@@ -12,7 +12,7 @@ public record CustomerResponse(
         String phone,
         String documentType,
         String documentNumber,
-        boolean isActive
+        Boolean isActive
 ) {
     public static CustomerResponse fromDTO(CustomerDTO dto) {
         return new CustomerResponse(

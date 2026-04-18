@@ -26,6 +26,19 @@ public class ErrorConstants {
 
     // Payment Exceptions
     public static final String PAYMENT_COMPLETION_INVALID_STATE = "No se pudo completar el pago: Solo se permiten transiciones desde el estado %s. Estado actual: %s";
-    public static final String PAYMENT_CANCELLATION_INVALID_STATE = "No se pudo anular el pago: Solo es posible anular pagos en estado %s o %s. Estado actual: %s";
+    public static final String PAYMENT_CANCELLATION_INVALID_STATE = "No se pudo anular el pago: Solo es posible anular pagos en estado %s. Estado actual: %s";
     public static final String PAYMENT_REFUND_INVALID_STATE = "No se pudo procesar el reembolso: Un pago solo puede ser reembolsado si su estado es %s. Estado actual: %s";
+
+    // Reservation Exceptions
+    public static final String RESERVATION_CONFIRMATION_INVALID_STATE = "No se pudo confirmar la reserva: Una reserva solo puede ser confirmado si su estado es %s. Estado actual: %s";
+    public static final String RESERVATION_CHECK_IN_INVALID_STATE = "No se pudo realizar el check-in de la reserva: Solo es posible realizar el check-in de reservas en estado %s. Estado actual: %s";
+    public static final String RESERVATION_CHECK_OUT_INVALID_STATE = "No se pudo realizar el check-out de la reserva: Solo es posible realizar el check-out de reservas en estado %s. Estado actual: %s";
+    public static final String RESERVATION_CANCELLATION_INVALID_STATE = "No se pudo cancelar la reserva: Una reserva solo puede ser cancelada si su estado es %s o %s. Estado actual: %s";
+    public static final String RESERVATION_ADVANCE_PAYMENT_INVALID = "No se puede confirmar la reserva: El monto pagado (%s) es inferior al monto mínimo requerido (%s) correspondiente a la primera noche";
+    public static final String RESERVATION_TOTAL_PAYMENT_INVALID = "La reserva debe contar con el pago total de la estancia. El saldo restante es: %s";
+    public static final String RESERVATION_OVERLAP = "No se puede procesar la reserva: La habitación seleccionada ya cuenta con una reserva activa para el periodo del %s al %s";
+    public static final String RESERVATION_CONFIRMATION_ROOM_UNAVAILABLE = "No se puede confirmar la reserva: La habitación ya no se encuentra disponible para las fechas seleccionadas debido a un solapamiento de último momento";
+    public static final String RESERVATION_CHECK_IN_EARLY = "No se puede realizar el Check-In: La entrada está programada para el %s. Para ingresar hoy, debe actualizar primero la reserva para incluir la noche adicional";
+    public static final String RESERVATION_CHECK_IN_EXPIRED = "No se puede realizar el Check-In: El periodo de esta reserva ya ha finalizado (Fecha de salida: %s)";
+    public static final String RESERVATION_CHECK_OUT_LATE = "Check-out tardío detectado (Hora límite: %s). Se ha excedido el tiempo de gracia de %d minutos. Por favor, registre el cargo por mora y asegúrese de que el saldo esté cancelado antes de proceder";
 }

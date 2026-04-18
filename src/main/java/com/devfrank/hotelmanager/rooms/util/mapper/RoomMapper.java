@@ -16,6 +16,11 @@ import java.util.UUID;
 public interface RoomMapper {
     RoomDTO toDTO(Room room);
 
+    @Named("toSummaryDTO")
+    @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    RoomDTO toSummaryDTO(Room room);
+
     @Mapping(target = "id", expression = "java(defaultValueForId())")
     @Mapping(target = "type", qualifiedByName = "stringToRoomType")
     @Mapping(target = "status", expression = "java(defaultValueForStatus())")
@@ -54,5 +59,10 @@ public interface RoomMapper {
     @Named("stringToRoomType")
     default RoomType stringToRoomType(String type) {
         return RoomType.fromType(type);
+    }
+
+    @Named("idToEntity")
+    default Room idToEntity(UUID id) {
+        return new Room(id);
     }
 }

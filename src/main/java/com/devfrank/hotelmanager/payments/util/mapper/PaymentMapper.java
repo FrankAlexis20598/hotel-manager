@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface PaymentMapper {
+    @Named("toDTO")
     PaymentDTO toDTO(Payment payment);
 
     @Mapping(target = "id", expression = "java(defaultValueForId())")

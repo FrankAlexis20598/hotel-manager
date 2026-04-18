@@ -39,6 +39,10 @@ import java.util.UUID;
 @ToString
 public class Customer {
 
+    public Customer(UUID id) {
+        this.id = id;
+    }
+
     @Id
     @EqualsAndHashCode.Include
     private UUID id;
