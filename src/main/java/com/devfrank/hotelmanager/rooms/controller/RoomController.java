@@ -2,7 +2,6 @@ package com.devfrank.hotelmanager.rooms.controller;
 
 import com.devfrank.hotelmanager.rooms.dto.filter.RoomCriteria;
 import com.devfrank.hotelmanager.rooms.dto.request.SaveRoomRequest;
-import com.devfrank.hotelmanager.rooms.dto.request.UpdateRoomStatusRequest;
 import com.devfrank.hotelmanager.rooms.dto.response.RoomResponse;
 import com.devfrank.hotelmanager.rooms.service.RoomService;
 import com.devfrank.hotelmanager.shared.response.PagedResponse;
@@ -76,10 +75,27 @@ public class RoomController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<Void> updateStatus(@PathVariable UUID id,
-                                             @RequestBody @Valid UpdateRoomStatusRequest request) {
-        roomService.updateStatus(id, request);
+    @PatchMapping("/{id}/maintenance/start")
+    public ResponseEntity<Void> putInMaintenance(@PathVariable UUID id) {
+        roomService.putInMaintenance(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/maintenance/finish")
+    public ResponseEntity<Void> finishMaintenance(@PathVariable UUID id) {
+        roomService.finishMaintenance(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/cleaning/start")
+    public ResponseEntity<Void> startCleaning(@PathVariable UUID id) {
+        roomService.startCleaning(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/cleaning/ready")
+    public ResponseEntity<Void> markAsReady(@PathVariable UUID id) {
+        roomService.markAsReady(id);
         return ResponseEntity.noContent().build();
     }
 }

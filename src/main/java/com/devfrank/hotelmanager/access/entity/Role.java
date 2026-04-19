@@ -11,7 +11,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -51,7 +50,6 @@ public class Role {
     private UUID id;
 
     @Column(nullable = false, length = 50)
-    @NotBlank
     private String name;
 
     @Column(nullable = false)

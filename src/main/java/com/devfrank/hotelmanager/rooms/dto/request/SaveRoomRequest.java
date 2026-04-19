@@ -11,8 +11,7 @@ import java.math.BigDecimal;
 
 public record SaveRoomRequest(
         @NotBlank
-        @Size(min = 3, max = 3)
-        @Pattern(regexp = "^\\d{3}$", message = ValidationConstants.ROOM_NUMBER_PATTERN)
+        @Pattern(regexp = "^[0-9]{3}$", message = ValidationConstants.ROOM_NUMBER_PATTERN)
         String number,
 
         @NotBlank
